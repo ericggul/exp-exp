@@ -10,7 +10,7 @@ export const Container = styled.div`
 export const Counter = styled.div`
   font-size: 4vw;
   color: white;
-  font-weight: bold;
+  font-weight: normal;
   position: absolute;
   top: 50%;
   left: 50%;
