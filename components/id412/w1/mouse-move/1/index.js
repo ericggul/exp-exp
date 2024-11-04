@@ -27,7 +27,8 @@ export default function MouseMoveVisual() {
         const dx = x - mousePos.x;
         const dy = y - mousePos.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const scale = Math.max(0.1, 1 - distance * 2);
+        // Invert the scale calculation: larger when far, smaller when close
+        const scale = Math.min(2, 0.2 + distance * 2); // Added min limit to prevent too large scaling
 
         element.style.transform = `translate(-50%, -50%) scale(${scale})`;
       });

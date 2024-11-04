@@ -40,7 +40,7 @@ export default function DataVisual() {
         setCurrentDate(nextData.date);
         return prevIndex + 1;
       });
-    }, 50);
+    }, 5);
 
     return () => clearInterval(interval);
   }, [stockData, isRunning]);

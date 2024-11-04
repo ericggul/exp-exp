@@ -10,16 +10,6 @@ export const ImageContainer = styled.div`
   overflow: hidden;
 `;
 
-export const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 10px;
-  width: 100%;
-  max-width: 800px;
-  aspect-ratio: 1 / 1;
-`;
-
 export const GridItem = styled.div`
   width: 100%;
   height: 100%;

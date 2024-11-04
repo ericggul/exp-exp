@@ -8,7 +8,7 @@ export default function MouseMoveVisual() {
   return (
     <S.Container>
       <S.KaonashiImage
-        src="/assets/id412/w1/mouse-move/1.png"
+        src="/assets/id412/w1/mouse-move/totoro.webp"
         alt="Kaonashi"
         style={{
           left: `${mousePos.x * 100}%`,

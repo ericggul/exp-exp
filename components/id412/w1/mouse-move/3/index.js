@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from "react";
 import * as S from "./styles";
 import useResize from "utils/hooks/useResize";
 
-const KAONASHI_COUNT = 12;
-const SPEED = 0.93;
+const KAONASHI_COUNT = 100;
+const SPEED = 0.99;
 export default function MouseMoveVisual() {
   const containerRef = useRef(null);
   const [windowWidth, windowHeight] = useResize();

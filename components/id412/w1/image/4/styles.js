@@ -8,22 +8,12 @@ export const ImageContainer = styled.div`
   overflow: hidden;
 `;
 
-export const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 10px;
-  width: 100%;
-  max-width: 800px;
-  aspect-ratio: 1 / 1;
-`;
-
 export const GridItem = styled.div`
   position: absolute;
   width: ${(props) => props.$imageSize}vw;
   height: ${(props) => props.$imageSize}vh;
   overflow: hidden;
-  mix-blend-mode: difference;
+  mix-blend-mode: hard-light;
 
   ${(props) => {
     switch (props.$index) {

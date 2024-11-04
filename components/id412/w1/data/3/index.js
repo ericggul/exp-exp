@@ -56,6 +56,7 @@ export default function DataVisual() {
 
   const calculateCircleSize = (price) => {
     return `${Math.sqrt(price) * 5}vmin`;
+    // return `${price * 5}vmin`;
   };
 
   return (

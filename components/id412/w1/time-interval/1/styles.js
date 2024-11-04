@@ -6,7 +6,8 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: black;
+  background-color: ${(props) => `hsl(${props.$hue}, 100%, 50%)`};
+  transition: background-color 0.1s ease;
 `;
 
 export const Counter = styled.div`

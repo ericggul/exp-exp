@@ -32,14 +32,21 @@ export default function DataVisual() {
         setStockPrice(stockData[prevIndex + 1]);
         return prevIndex + 1;
       });
-    }, 100); // 0.1s interval
+    }, 5); // 0.1s interval
 
     return () => clearInterval(interval);
   }, [stockData]);
 
+  // Determine color based on price change
+  const getColor = () => {
+    if (currentIndex === 0) return "black";
+    const previousPrice = stockData[currentIndex - 1];
+    return stockPrice > previousPrice ? "green" : "red";
+  };
+
   return (
     <S.Container>
-      <S.Counter>{stockPrice.toFixed(2)}</S.Counter>
+      <S.Counter color={getColor()}>{stockPrice.toFixed(2)}</S.Counter>
     </S.Container>
   );
 }
