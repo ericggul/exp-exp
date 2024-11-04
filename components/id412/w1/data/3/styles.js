@@ -8,7 +8,7 @@ export const Container = styled.div`
 `;
 
 export const Counter = styled.div`
-  font-size: 3vw;
+  font-size: 4vw;
   color: white;
   font-weight: bold;
   position: absolute;
