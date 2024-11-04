@@ -1,8 +1,6 @@
 import { useState } from "react";
 import * as S from "./styles";
 
-//call gpt from api/openai/gpt-4o
-
 export default function ChatGPT() {
   const [systemContent, setSystemContent] = useState("");
   const [userContent, setUserContent] = useState("");

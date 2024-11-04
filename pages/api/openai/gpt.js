@@ -14,7 +14,6 @@ export default async function handler(req, res) {
       ],
     });
 
-    console.log(response);
     const result = response.choices[0].message.content;
     res.status(200).json({ text: result });
   } catch (error) {
