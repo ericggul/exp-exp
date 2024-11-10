@@ -10,6 +10,9 @@ import mobileAudioSetup from "./id430/mobile-audio";
 //id412 w2
 import simpleSetup from "./id412/simple";
 
+//convd4 w10
+import w10Setup from "./convd4/w10";
+
 export default function handler(req, res) {
   if (res.socket.server.io) {
     console.log("socket already enabled");
@@ -33,6 +36,8 @@ export default function handler(req, res) {
       mobileAudioSetup({ socket, io });
       //simple
       simpleSetup({ socket, io });
+      //w10
+      w10Setup({ socket, io });
     });
   }
 
