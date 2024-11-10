@@ -20,7 +20,6 @@ export default function Component() {
   const [scrollPoses, setScrollPoses] = useState([]);
 
   function handleNewScroll(data) {
-    //do a similar thing with scrollposes
     setScrollPoses((arr) => {
       let copied = [...arr];
 
