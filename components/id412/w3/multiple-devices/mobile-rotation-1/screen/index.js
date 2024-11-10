@@ -13,7 +13,7 @@ import useSocket from "utils/hooks/socket/id430/mobile-rotation-1/useSocketScree
 
 //qr code
 import { QRCodeSVG } from "qrcode.react";
-const QR_URL = "https://exp-exp.onrender.com/id430/multiple-devices/mobile-rotation-1/mobile";
+const QR_URL = "https://exp-exp.onrender.com/id412/multiple-devices/mobile-rotation-1/mobile";
 
 const getRandom = (a, b) => Math.random() * (b - a) + a;
 
