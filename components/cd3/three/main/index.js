@@ -14,7 +14,6 @@ const SINGLE_ARRAY = [
   "geometric-pattern",
   "fractal-tree",
   "ray-marching",
-  "interactive-globe",
   "3d-vision-board",
 ];
 
