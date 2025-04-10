@@ -51,7 +51,6 @@ function InnerEl() {
           return new Array(21).fill(0).map((_, j) => (
             <mesh castShadow receiveShadow key={100 * i + j} position={[(i - 10) * 1.5 * scrollPos, (j - 10) * 1.5 * scrollPos, 0]} rotation={[scrollPos * 4 * Math.PI, scrollPos * 6 * Math.PI, 0]}>
               <boxGeometry args={[1, 1, 1]} />
-
               <meshStandardMaterial roughness={0.1} metalness={0.9} color={new THREE.Color(`hsl(${scrollPos * 360}, 100%, 50%)`)} />
             </mesh>
           ));

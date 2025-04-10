@@ -12,7 +12,6 @@ export default function Component() {
     <S.Container>
       <Canvas>
         <ambientLight intensity={2} />
-        {/* <directionalLight position={[0, 10, 0]} intensity={1} /> */}
         <directionalLight position={[0, 0, 10]} intensity={1} />
 
         <InnerEl />

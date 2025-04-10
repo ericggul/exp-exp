@@ -10,8 +10,10 @@ import mobileAudioSetup from "./id430/mobile-audio";
 //id412 w2
 import simpleSetup from "./id412/simple";
 
-//convd4 w10
-import w10Setup from "./convd4/w10";
+import simpleSetup2 from "./cd3/simple";
+
+//cd4 w10
+import w10Setup from "./cd4/w10";
 
 export default function handler(req, res) {
   if (res.socket.server.io) {
@@ -36,6 +38,8 @@ export default function handler(req, res) {
       mobileAudioSetup({ socket, io });
       //simple
       simpleSetup({ socket, io });
+      //simple2
+      simpleSetup2({ socket, io });
       //w10
       w10Setup({ socket, io });
     });

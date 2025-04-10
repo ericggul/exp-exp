@@ -14,4 +14,14 @@ export default function w10Setup({ socket, io }) {
     console.log("w10 text", data);
     socket.to("w10-screen").emit("new-w10-text", data);
   });
+
+  socket.on("w10-color", (data) => {
+    console.log("w10 color", data);
+    socket.to("w10-screen").emit("new-w10-color", data);
+  });
+
+  socket.on("w10-data", (data) => {
+    console.log("w10 data", data);
+    socket.to("w10-screen").emit("new-w10-data", data);
+  });
 }

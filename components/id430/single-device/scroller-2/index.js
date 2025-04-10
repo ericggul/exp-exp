@@ -10,7 +10,6 @@ export default function Component() {
     <S.Container>
       <Canvas shadows>
         <ambientLight intensity={0.1} />
-
         <ScrollControls
           pages={40}
           //stylye scrollbar hide

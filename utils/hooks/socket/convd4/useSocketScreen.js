@@ -2,7 +2,7 @@ import io from "socket.io-client";
 
 import { useEffect, useRef } from "react";
 
-export default function useSocketInit({ handleNewText }) {
+export default function useSocketInit({ handleNewText, handleNewColor, handleNewData }) {
   const socket = useRef(null);
   useEffect(() => {
     socketInitializer();
@@ -22,6 +22,8 @@ export default function useSocketInit({ handleNewText }) {
     });
 
     socket.current.on("new-w10-text", handleNewText);
+    socket.current.on("new-w10-color", handleNewColor);
+    socket.current.on("new-w10-data", handleNewData);
   };
 
   return socket;
