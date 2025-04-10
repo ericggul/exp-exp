@@ -7,7 +7,7 @@ const openai = new OpenAI({
 export default async function handler(req, res) {
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo", // Ensure that the correct model name is used.
+      model: "o3-mini", // Ensure that the correct model name is used.
       messages: [
         { role: "system", content: req.body.systemContent },
         { role: "user", content: req.body.userContent },

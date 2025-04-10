@@ -99,6 +99,7 @@ const TutorialLink = styled(Link)`
 const categories = [
   { name: "Data", nameLower: "data", count: 3 },
   { name: "Image", nameLower: "image", count: 5 },
+  { name: "Layout", nameLower: "layout", count: 1 },
   { name: "Mouse Move", nameLower: "mouse-move", count: 4 },
   { name: "Time Interval", nameLower: "time-interval", count: 2 },
   { name: "Video", nameLower: "video", count: 4 },

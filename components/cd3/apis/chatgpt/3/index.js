@@ -1,142 +1,166 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import * as S from "./styles";
 
-const NUM_CONVERSATIONS = 10;
-
-const Conversation = React.memo(({ conversation }) => {
-  return (
-    <S.ConversationWrapper>
-      <S.ConversationTitle>Conversation {conversation.id}</S.ConversationTitle>
-      <S.ConversationContainer>
-        {conversation.messages.map((message, index) => (
-          <S.Message key={index} $isUser={message.role === "user"}>
-            <strong>{message.role === "user" ? "You: " : "AI: "}</strong>
-            {message.content}
-          </S.Message>
-        ))}
-      </S.ConversationContainer>
-    </S.ConversationWrapper>
-  );
-});
-
-function useConversations() {
-  const [conversations, setConversations] = useState(() =>
-    Array(NUM_CONVERSATIONS)
-      .fill(null)
-      .map((_, i) => ({ id: i + 1, messages: [] }))
-  );
-
-  const addMessageToAll = useCallback((message) => {
-    setConversations((prevConversations) =>
-      prevConversations.map((conv) => ({
-        ...conv,
-        messages: [...conv.messages, message],
-      }))
-    );
-  }, []);
-
-  const addResponseToConversation = useCallback((id, response) => {
-    setConversations((prevConversations) => prevConversations.map((conv) => (conv.id === id ? { ...conv, messages: [...conv.messages, response] } : conv)));
-  }, []);
-
-  const clearAllConversations = useCallback(() => {
-    setConversations((prevConversations) => prevConversations.map((conv) => ({ ...conv, messages: [] })));
-  }, []);
-
-  return {
-    conversations,
-    addMessageToAll,
-    addResponseToConversation,
-    clearAllConversations,
-  };
-}
-
-async function fetchAIResponse(systemContent, conversation) {
-  const response = await fetch("/api/openai/gpt-conversation", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      systemContent,
-      conversation,
-    }),
-  });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  const data = await response.json();
-  return { role: "assistant", content: data.text };
-}
-
 export default function ChatGPT() {
-  const [systemContent, setSystemContent] = useState("");
+  const [systemContent, setSystemContent] = useState("You are a helpful assistant for a design student.");
   const [userContent, setUserContent] = useState("");
+  const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { conversations, addMessageToAll, addResponseToConversation, clearAllConversations } = useConversations();
+  const [showSystemPrompt, setShowSystemPrompt] = useState(false);
 
-  const sendMessage = useCallback(async () => {
-    if (userContent.trim() === "") return;
+  const chatEndRef = useRef(null);
+  const inputRef = useRef(null);
 
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // Focus input on load
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  async function sendMessage(e) {
+    e?.preventDefault();
+
+    if (!userContent.trim()) return;
+
+    // Add user message to chat
+    const newMessages = [...messages, { role: "user", content: userContent }];
+    setMessages(newMessages);
+
+    // Clear input field
+    const currentUserContent = userContent;
+    setUserContent("");
+
+    // Show loading state
     setIsLoading(true);
-    const newMessage = { role: "user", content: userContent };
-    addMessageToAll(newMessage);
 
     try {
-      await Promise.all(
-        conversations.map(async (conv) => {
-          const aiResponse = await fetchAIResponse(systemContent, [...conv.messages, newMessage]);
-          addResponseToConversation(conv.id, aiResponse);
-        })
-      );
-      setUserContent("");
+      const response = await fetch("/api/openai/gpt", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          systemContent,
+          userContent: currentUserContent,
+          // Optionally include previous messages for context
+          // previousMessages: messages,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Add assistant response to chat
+      setMessages([...newMessages, { role: "assistant", content: data.text }]);
     } catch (error) {
       console.error("Failed to fetch data from OpenAI", error);
+      // Add error message to chat
+      setMessages([
+        ...newMessages,
+        {
+          role: "system",
+          content: "Sorry, there was an error communicating with the AI. Please try again.",
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
-  }, [systemContent, userContent, conversations, addMessageToAll, addResponseToConversation]);
+  }
 
-  useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (e.key === "Enter" && !isLoading) {
-        sendMessage();
-      }
-    };
-    window.addEventListener("keypress", handleKeyPress);
-    return () => window.removeEventListener("keypress", handleKeyPress);
-  }, [sendMessage, isLoading]);
+  // Clever prompt ideas for designers
+  const promptSuggestions = [
+    "Design a logo for a sustainable fashion brand",
+    "Suggest color palettes for a children's educational app",
+    "What are current typography trends in web design?",
+    "How can I apply gestalt principles to my interface design?",
+    "Explain the difference between UX and UI design",
+  ];
 
-  const memoizedConversations = useMemo(() => conversations, [conversations]);
+  const handleSuggestionClick = (suggestion) => {
+    setUserContent(suggestion);
+    inputRef.current?.focus();
+  };
 
   return (
-    <S.ChatGPTContainer>
-      <S.Title>Chat with GPT-4o (Multiple Conversations)</S.Title>
-      <S.InputGroup>
-        <S.Label>
-          System Prompt:
-          <S.Input type="text" value={systemContent} onChange={(e) => setSystemContent(e.target.value)} />
-        </S.Label>
-      </S.InputGroup>
-      <S.ConversationsGrid>
-        {memoizedConversations.map((conv) => (
-          <Conversation key={conv.id} conversation={conv} />
-        ))}
-      </S.ConversationsGrid>
-      <S.InputGroup>
-        <S.Label>
-          Your message:
-          <S.Input type="text" value={userContent} onChange={(e) => setUserContent(e.target.value)} />
-        </S.Label>
-      </S.InputGroup>
-      <S.ButtonGroup>
-        <S.Button onClick={sendMessage} disabled={isLoading}>
-          {isLoading ? "Sending..." : "Send to All"}
-        </S.Button>
-        <S.Button onClick={clearAllConversations}>Clear All</S.Button>
-      </S.ButtonGroup>
-    </S.ChatGPTContainer>
+    <S.Container>
+      <S.Header>
+        <S.Title>Chat with GPT-4o</S.Title>
+        <S.Subtitle>Explore design concepts, get feedback, and learn design principles</S.Subtitle>
+        <S.SystemPromptToggle onClick={() => setShowSystemPrompt(!showSystemPrompt)} active={showSystemPrompt}>
+          {showSystemPrompt ? "Hide System Prompt" : "Show System Prompt"}
+        </S.SystemPromptToggle>
+      </S.Header>
+
+      {showSystemPrompt && (
+        <S.SystemPromptSection>
+          <S.Label>System Prompt:</S.Label>
+          <S.SystemPromptInput value={systemContent} onChange={(e) => setSystemContent(e.target.value)} placeholder="Instruct the AI on how to respond..." />
+          <S.SystemPromptHint>The system prompt defines the AI's behavior. Try "You are a branding expert" or "You are a UI design mentor".</S.SystemPromptHint>
+        </S.SystemPromptSection>
+      )}
+
+      <S.ChatContainer>
+        <S.PromptSuggestions>
+          <S.SuggestionLabel>Try asking about:</S.SuggestionLabel>
+          <S.SuggestionsWrapper>
+            {promptSuggestions.map((suggestion, index) => (
+              <S.SuggestionChip key={index} onClick={() => handleSuggestionClick(suggestion)}>
+                {suggestion}
+              </S.SuggestionChip>
+            ))}
+          </S.SuggestionsWrapper>
+        </S.PromptSuggestions>
+
+        <S.MessagesContainer>
+          {messages.length === 0 ? (
+            <S.EmptyState>
+              <S.EmptyStateIcon>💬</S.EmptyStateIcon>
+              <S.EmptyStateText>Ask the AI anything about design!</S.EmptyStateText>
+            </S.EmptyState>
+          ) : (
+            messages.map((message, index) => (
+              <S.Message key={index} role={message.role}>
+                <S.MessageAvatar role={message.role}>{message.role === "user" ? "👤" : message.role === "assistant" ? "🤖" : "⚠️"}</S.MessageAvatar>
+                <S.MessageContent>
+                  {message.content.split("\n").map((line, i) => (
+                    <React.Fragment key={i}>
+                      {line}
+                      {i !== message.content.split("\n").length - 1 && <br />}
+                    </React.Fragment>
+                  ))}
+                </S.MessageContent>
+              </S.Message>
+            ))
+          )}
+          {isLoading && (
+            <S.Message role="assistant">
+              <S.MessageAvatar role="assistant">🤖</S.MessageAvatar>
+              <S.MessageContent>
+                <S.LoadingDots>
+                  <span>.</span>
+                  <span>.</span>
+                  <span>.</span>
+                </S.LoadingDots>
+              </S.MessageContent>
+            </S.Message>
+          )}
+          <div ref={chatEndRef} />
+        </S.MessagesContainer>
+
+        <S.InputForm onSubmit={sendMessage}>
+          <S.UserInput ref={inputRef} type="text" value={userContent} onChange={(e) => setUserContent(e.target.value)} placeholder="Ask about design principles, color theory, etc." />
+          <S.SendButton type="submit" disabled={!userContent.trim() || isLoading}>
+            Send
+          </S.SendButton>
+        </S.InputForm>
+      </S.ChatContainer>
+    </S.Container>
   );
 }

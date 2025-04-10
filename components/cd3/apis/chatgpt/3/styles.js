@@ -1,170 +1,261 @@
-import { FlexCenterStyle, WholeContainer } from "styles/common";
-import styled, { keyframes, css } from "styled-components";
+import { WholeContainer } from "styles/common";
+import styled, { keyframes } from "styled-components";
 
-const rotate = keyframes`
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-`;
-
-const float = keyframes`
-   0% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-  100% { transform: translateY(0px); }
-`;
-
-const randomRotation = () => css`
-  transform: rotate(${Math.random() * 5 - 2.5}deg);
-`;
-
-const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-
-const randomBgColor = () => `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.3)`;
-
-const randomBorderRadius = () => `${Math.random() * 20}px`;
-
-export const ChatGPTContainer = styled.div`
+export const Container = styled.div`
   ${WholeContainer};
-  ${FlexCenterStyle};
+  display: flex;
   flex-direction: column;
-  padding: 10px;
-  background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);
+  background-color: #f8fafc;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #334155;
+  padding: 2rem;
+`;
+
+export const Header = styled.header`
+  text-align: center;
+  margin-bottom: 2rem;
 `;
 
 export const Title = styled.h1`
-  color: #333;
-  margin-bottom: 10px;
-  font-size: 20px;
-  transform: skew(-15deg);
-  text-shadow: 3px 3px 0 #ff00ff, 6px 6px 0 #00ffff;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  font-size: 2.5rem;
 `;
 
-export const InputGroup = styled.div`
-  margin-bottom: 10px;
+export const Subtitle = styled.p`
+  color: #64748b;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+`;
+
+export const SystemPromptToggle = styled.button`
+  background: transparent;
+  border: none;
+  color: ${(props) => (props.active ? "#3b82f6" : "#64748b")};
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0.5rem;
+
+  &:hover {
+    color: #3b82f6;
+  }
+`;
+
+export const SystemPromptSection = styled.div`
+  margin-bottom: 1.5rem;
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
   width: 100%;
-  max-width: 600px;
-  ${randomRotation}
+  align-self: center;
 `;
 
 export const Label = styled.label`
   display: block;
-  margin-bottom: 3px;
-  font-weight: bold;
-  font-size: 12px;
-  color: ${randomColor};
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 0.9rem;
 `;
 
-export const Input = styled.input`
+export const SystemPromptInput = styled.textarea`
   width: 100%;
-  padding: 4px;
-  border: 3px dashed #ccc;
-  border-radius: 20px;
-  font-size: 12px;
-  background-color: ${randomBgColor};
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
 `;
 
-export const Button = styled.button`
-  background-color: #4caf50;
+export const SystemPromptHint = styled.p`
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-style: italic;
+`;
+
+export const ChatContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  max-width: 800px;
+  width: 100%;
+  align-self: center;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+`;
+
+export const PromptSuggestions = styled.div`
+  padding: 1rem;
+  background-color: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+`;
+
+export const SuggestionLabel = styled.p`
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  color: #64748b;
+`;
+
+export const SuggestionsWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+`;
+
+export const SuggestionChip = styled.button`
+  background-color: #e2e8f0;
+  color: #475569;
   border: none;
-  color: white;
-  padding: 4px 8px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 2px 1px;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
   cursor: pointer;
-  border-radius: 50%;
-  transform: scale(${0.8 + Math.random() * 0.4});
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 
   &:hover {
-    background-color: #45a049;
-    transform: scale(1.1) rotate(${Math.random() * 360}deg);
+    background-color: #cbd5e1;
+    transform: translateY(-1px);
+  }
+`;
+
+export const MessagesContainer = styled.div`
+  padding: 1.5rem;
+  overflow-y: auto;
+  max-height: 50vh;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+export const EmptyState = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+`;
+
+export const EmptyStateIcon = styled.div`
+  font-size: 3rem;
+  margin-bottom: 1rem;
+`;
+
+export const EmptyStateText = styled.p`
+  font-size: 1.1rem;
+`;
+
+export const Message = styled.div`
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: ${(props) => (props.role === "user" ? "#f1f5f9" : props.role === "assistant" ? "#f8fafc" : "#fee2e2")};
+  border-left: 4px solid ${(props) => (props.role === "user" ? "#3b82f6" : props.role === "assistant" ? "#10b981" : "#ef4444")};
+`;
+
+export const MessageAvatar = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) => (props.role === "user" ? "#bfdbfe" : props.role === "assistant" ? "#d1fae5" : "#fecaca")};
+  color: ${(props) => (props.role === "user" ? "#1e40af" : props.role === "assistant" ? "#065f46" : "#b91c1c")};
+  font-size: 1.5rem;
+  flex-shrink: 0;
+`;
+
+export const MessageContent = styled.div`
+  flex-grow: 1;
+  font-size: 0.95rem;
+  line-height: 1.5;
+`;
+
+const dotPulse = keyframes`
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+`;
+
+export const LoadingDots = styled.div`
+  display: flex;
+  align-items: center;
+
+  span {
+    height: 6px;
+    width: 6px;
+    margin-right: 4px;
+    background-color: #94a3b8;
+    border-radius: 50%;
+    display: inline-block;
+    animation: ${dotPulse} 1.5s infinite;
+
+    &:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+  }
+`;
+
+export const InputForm = styled.form`
+  display: flex;
+  padding: 1rem;
+  gap: 0.5rem;
+  border-top: 1px solid #e2e8f0;
+`;
+
+export const UserInput = styled.input`
+  flex-grow: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+`;
+
+export const SendButton = styled.button`
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: #2563eb;
   }
 
   &:disabled {
-    background-color: #cccccc;
+    background-color: #94a3b8;
     cursor: not-allowed;
   }
-`;
-
-export const ButtonGroup = styled.div`
-  display: flex;
-  gap: 5px;
-  animation: ${float} 5s ease-in-out infinite;
-`;
-
-// export const ConversationContainer = styled.div`
-//   width: 100%;
-//   max-width: 600px;
-//   height: 400px;
-//   overflow-y: auto;
-//   border: 1px solid #ccc;
-//   border-radius: 4px;
-//   padding: 10px;
-//   margin-bottom: 20px;
-//   background-color: #ffffff;
-// `;
-
-export const Message = styled.div`
-  background-color: ${(props) => (props.$isUser ? "#e6f3ff" : "#f1f1f1")};
-  padding: 4px;
-  border-radius: 4px;
-  margin-bottom: 4px;
-  word-wrap: break-word;
-  font-size: 10px;
-  ${randomRotation}
-  box-shadow: ${() => `${Math.random() * 5}px ${Math.random() * 5}px 0 rgba(0,0,0,0.1)`};
-`;
-
-export const EmptyConversation = styled.div`
-  color: #999;
-  text-align: center;
-  padding: 5px;
-  font-size: 10px;
-  font-style: italic;
-  transform: skew(${Math.random() * 10 - 5}deg);
-`;
-
-export const ConversationsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-  width: 100%;
-  max-width: 1200px;
-  transform: perspective(500px) rotateX(${Math.random() * 10 - 5}deg);
-`;
-
-export const ConversationWrapper = styled.div`
-  border: 2px solid ${randomColor};
-  padding: 5px;
-  background-color: rgba(249, 249, 249, 0.7);
-  display: flex;
-  flex-direction: column;
-  height: 200px;
-  ${randomRotation}
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: scale(1.05) rotate(${Math.random() * 5 - 2.5}deg);
-  }
-`;
-
-export const ConversationTitle = styled.h2`
-  font-size: 14px;
-  margin-bottom: 5px;
-  color: #333;
-  text-decoration: underline wavy ${randomColor};
-`;
-
-export const ConversationContainer = styled.div`
-  height: 100px;
-  overflow-y: auto;
-  border: 1px dotted #ccc;
-  border-radius: ${randomBorderRadius};
-  padding: 5px;
-  margin-bottom: 5px;
-  background-color: rgba(255, 255, 255, 0.8);
-  flex-grow: 1;
-  transform: skew(${Math.random() * 5 - 2.5}deg);
 `;
