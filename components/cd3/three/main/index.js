@@ -2,7 +2,21 @@ import React from "react";
 import * as S from "./styles";
 import Link from "next/link";
 
-const SINGLE_ARRAY = ["face-control", "mouse-pos-1", "mouse-pos-2", "scroller-1", "scroller-2"];
+const SINGLE_ARRAY = [
+  "face-control",
+  "mouse-pos-1",
+  "mouse-pos-2",
+  "scroller-1",
+  "scroller-2",
+  "particle-flow",
+  "wave-pattern",
+  "shader-art",
+  "geometric-pattern",
+  "fractal-tree",
+  "ray-marching",
+  "interactive-globe",
+  "3d-vision-board",
+];
 
 const MULTIPLE_ARRAY = ["mobile-scroll", "mobile-rotation-1", "mobile-rotation-2", "mobile-letter", "mobile-audio"];
 
