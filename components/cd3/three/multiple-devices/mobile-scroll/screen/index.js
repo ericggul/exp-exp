@@ -10,7 +10,7 @@ const INTERVAL = Math.sqrt(2);
 
 //qr code
 import { QRCodeSVG } from "qrcode.react";
-const QR_URL = "https://exp-exp.onrender.com/cd3/multiple-devices/mobile-scroll/mobile";
+const QR_URL = "https://exp-exp.onrender.com/cd3/three/multiple-devices/mobile-scroll/mobile";
 
 export default function Component() {
   const socket = useSocket({

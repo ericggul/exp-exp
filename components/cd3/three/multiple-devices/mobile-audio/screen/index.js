@@ -7,7 +7,7 @@ import { OrbitControls, Environment, Instances, Instance } from "@react-three/dr
 import { QRCodeSVG } from "qrcode.react";
 import * as THREE from "three";
 
-const QR_URL = "https://exp-exp.onrender.com/cd3/multiple-devices/mobile-audio/mobile";
+const QR_URL = "https://exp-exp.onrender.com/cd3/three/multiple-devices/mobile-audio/mobile";
 
 export default function Component() {
   const socket = useSocket({ handleNewData });
