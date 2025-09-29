@@ -1,57 +1,67 @@
 import * as S from "./styles";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Environment, Stars, Sky } from "@react-three/drei";
-import { useRef } from "react";
+import { OrbitControls } from "@react-three/drei";
+import { useMemo, useRef, useState } from "react";
+import { Vector3 } from "three";
 
 function Sphere({ position }) {
   const meshRef = useRef();
+  const [hovered, setHovered] = useState(false);
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    // Calculate unique phase based on position to make spheres pulse differently
-    const phase = (position[0] + position[1] + position[2]) * 0.3;
-    // Scale between 0.8 and 1.2 using sin wave
-    const scale = 1 + Math.sin(time * 2 + phase) * 1.0;
-    meshRef.current.scale.set(scale, scale, scale);
+    const pulse = Math.sin(time * 1.5 + position[0] * 0.5) * 0.1 + 0.9;
+    const targetScale = hovered ? 1.5 : 1.0;
+    meshRef.current.scale.lerp(
+      new Vector3(targetScale, targetScale, targetScale).multiplyScalar(pulse),
+      0.1
+    );
   });
 
   return (
-    <mesh ref={meshRef} position={position}>
-      <sphereGeometry args={[1, 32, 32]} />
+    <mesh
+      ref={meshRef}
+      position={position}
+      onPointerOver={(event) => (event.stopPropagation(), setHovered(true))}
+      onPointerOut={(event) => setHovered(false)}
+      scale={1}
+    >
+      <sphereGeometry args={[0.5, 32, 32]} />
       <meshStandardMaterial
-        color="orange"
-        roughness={0.2} // Reduced roughness for more reflections
-        metalness={0.8} // Increased metalness for more reflections
-        envMapIntensity={1} // Controls the strength of environment reflections
+        color={hovered ? "hotpink" : "lightblue"}
+        metalness={0.4}
+        roughness={0.3}
+        envMapIntensity={0.9}
       />
     </mesh>
   );
 }
 
 export default function Tutorial() {
-  const N = 5; // Grid size
-  const spacing = 3; // Space between spheres
+  const N = 10; // Grid size (10x10)
+  const spacing = 1.5; // Space between spheres
   const offset = ((N - 1) * spacing) / 2; // Offset to center the grid
+
+  // Create positions for 100 spheres in a 10x10 grid
+  const spheres = useMemo(() => {
+    const temp = [];
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+        temp.push([i * spacing - offset, j * spacing - offset, 0]); // Position on xy-plane
+      }
+    }
+    return temp;
+  }, [N, spacing, offset]);
 
   return (
     <S.TutorialContainer>
-      <Canvas camera={{ position: [50, 50, 50] }}>
-        <ambientLight intensity={0.1} />
-        <pointLight position={[10, 10, 10]} intensity={2} color="#ffffff" />
-        <pointLight position={[-10, -10, -10]} intensity={0.8} color="#ffd9aa" />
-        <directionalLight position={[5, 5, 5]} intensity={2} color="#ffffff" />
-        <spotLight position={[5, 5, 0]} intensity={1.5} angle={0.5} penumbra={0.5} color="#ffffff" />
-        <Environment
-          preset="city"
-          // Other options: 'dawn', 'night', 'warehouse', 'forest', 'apartment', 'studio', 'city', 'park', 'lobby'
-          //   background // Optional: renders env map as background
-        />
-        {Array.from({ length: N }, (_, i) =>
-          Array.from({ length: N }, (_, j) => Array.from({ length: N }, (_, k) => <Sphere key={`${i}-${j}-${k}`} position={[i * spacing - offset, j * spacing - offset, k * spacing - offset]} />))
-        )}
-        <OrbitControls />
-        <Stars />
-        <Sky />
+      <Canvas camera={{ position: [0, 0, 15] }}> {/* Reset camera slightly */}
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[3, 3, 5]} intensity={1.5} />
+        {spheres.map((pos, i) => (
+          <Sphere key={i} position={pos} />
+        ))}
+        <OrbitControls /> {/* Removed constraints */}
       </Canvas>
     </S.TutorialContainer>
   );

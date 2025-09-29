@@ -20,11 +20,17 @@ export default function ChatGPT() {
           }),
         });
 
+        console.log('response', response);
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
+
+        console.log('data', data);
+        console.log('data.text', data.text);
+
         setResponse(data.text);
       } catch (error) {
         console.error("Failed to fetch data from OpenAI", error);
