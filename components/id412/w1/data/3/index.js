@@ -11,7 +11,7 @@ export default function DataVisual() {
 
   useEffect(() => {
     // Load and parse the CSV file
-    fetch("/assets/id412/w1/data/NFLX.csv")
+    fetch("/assets/cd3/basic/data/NFLX.csv")
       .then((response) => response.text())
       .then((csvString) => {
         const result = Papa.parse(csvString, { header: true });

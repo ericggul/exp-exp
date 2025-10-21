@@ -1,7 +1,7 @@
 import React from "react";
 import * as S from "./styles";
 
-const images = ["/assets/id412/w1/images/1.png", "/assets/id412/w1/images/2.png", "/assets/id412/w1/images/3.png", "/assets/id412/w1/images/4.png"];
+const images = ["/assets/cd3/basic/images/1.png", "/assets/cd3/basic/images/2.png", "/assets/cd3/basic/images/3.png", "/assets/cd3/basic/images/4.png"];
 const imageSize = 90; // This can be changed (70vw/vh)
 
 export default function ImageDisplay() {

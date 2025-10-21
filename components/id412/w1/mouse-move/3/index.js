@@ -71,7 +71,7 @@ export default function MouseMoveVisual() {
         <S.KaonashiImage
           key={index}
           ref={(el) => (kaonashisRef.current[index] = el)}
-          src="/assets/id412/w1/mouse-move/1.png"
+          src="/assets/cd3/basic/mouse-move/1.png"
           alt={`Kaonashi ${index + 1}`}
           style={{
             zIndex: KAONASHI_COUNT - index,
