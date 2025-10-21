@@ -41,7 +41,7 @@ export default function Component() {
 function InnerEl() {
   const mousePos = useMousePos();
   const cats = useRef([]);
-  const fbx = useFBX("/assets/id430/cat/source/cat.fbx");
+  const fbx = useFBX("/assets/cd3/cat/source/cat.fbx");
 
   const { size } = useThree();
 

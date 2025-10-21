@@ -1,8 +1,21 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import * as S from "./styles";
 import Link from "next/link";
 
-const SINGLE_ARRAY = ["face-control", "mouse-pos-1", "mouse-pos-2", "scroller-1", "scroller-2"];
+const SINGLE_ARRAY = [
+  "face-control",
+  "mouse-pos-1",
+  "mouse-pos-2",
+  "scroller-1",
+  "scroller-2",
+  "particle-flow",
+  "wave-pattern",
+  "shader-art",
+  "geometric-pattern",
+  "fractal-tree",
+  "ray-marching",
+  "3d-vision-board",
+];
 
 const MULTIPLE_ARRAY = ["mobile-scroll", "mobile-rotation-1", "mobile-rotation-2", "mobile-letter", "mobile-audio"];
 
@@ -17,32 +30,33 @@ function kebabToTitleCase(item) {
 export default function Component() {
   return (
     <S.Container>
+      <S.Title>Three.js Tutorials</S.Title>
+
       <S.Comp>
-        <h1>Single Device Examples</h1>
+        <S.CategoryTitle>Single Device Examples</S.CategoryTitle>
         <S.List>
           {SINGLE_ARRAY.map((item, index) => (
             <S.Item key={index}>
-              <Link href={`/id430/single-device/${item}`}>{kebabToTitleCase(item)}</Link>
+              <Link href={`/id412/w3/single-device/${item}`} target="_blank" rel="noopener noreferrer">
+                {kebabToTitleCase(item)}
+              </Link>
             </S.Item>
           ))}
         </S.List>
       </S.Comp>
 
       <S.Comp>
-        <h1>Multiple Devices Examples</h1>
+        <S.CategoryTitle>Multiple Devices Examples</S.CategoryTitle>
         <S.List>
           {MULTIPLE_ARRAY.map((item, index) => (
             <S.Item key={index}>
-              <Link href={`/id430/multiple-devices/${item}/screen`}>{kebabToTitleCase(item)}</Link>
+              <Link href={`/id412/w3/multiple-devices/${item}/screen`} target="_blank" rel="noopener noreferrer">
+                {kebabToTitleCase(item)}
+              </Link>
             </S.Item>
           ))}
         </S.List>
       </S.Comp>
-      <div
-        style={{
-          height: "100px",
-        }}
-      ></div>
     </S.Container>
   );
 }

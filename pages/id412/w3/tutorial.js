@@ -1,5 +1,5 @@
-import Tutorial from "components/id412/w3/tutorial";
+import Component from "components/id412/w3/tutorial";
 
 export default function Page() {
-  return <Tutorial />;
+  return <Component />;
 }

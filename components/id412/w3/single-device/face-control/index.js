@@ -18,7 +18,7 @@ export default function Component() {
 }
 
 function ThreeScene() {
-  const { nodes, materials } = useGLTF("/assets/id430/faces/test1.glb");
+  const { nodes, materials } = useGLTF("/assets/cd3/faces/test1.glb");
 
   const controls = useThree((state) => state.controls);
   const onVideoFrame = useCallback(
