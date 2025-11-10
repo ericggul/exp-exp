@@ -3,7 +3,8 @@ import * as S from "./styles";
 import useResize from "utils/hooks/useResize";
 
 const KAONASHI_COUNT = 100;
-const SPEED = 0.99;
+const SPEED = 0.88;
+
 export default function MouseMoveVisual() {
   const containerRef = useRef(null);
   const [windowWidth, windowHeight] = useResize();

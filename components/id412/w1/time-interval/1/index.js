@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import * as S from "./styles";
 
 const MAX_COUNT = 100;
-const MIN_INTERVAL = 10; // 0.1 second
-const MAX_INTERVAL = 100; // 1 second
+const MIN_INTERVAL = 100; // 0.1 second
+const MAX_INTERVAL = 1000; // 1 second
 const MIN_INCREMENT = 1;
 const MAX_INCREMENT = 10;
 

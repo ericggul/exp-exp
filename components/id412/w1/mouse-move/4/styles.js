@@ -24,13 +24,19 @@ export const AbstractShape = styled.div`
   left: 50%;
   width: 40vmin;
   height: 40vmin;
+  transform: translate(-50%, -50%) translate(var(--translate-x, 0), var(--translate-y, 0)) scale(var(--scale, 1)) rotate(var(--rotate, 0));
+  transition: transform 0.3s ease;
+  pointer-events: none;
+`;
+
+export const ShapeInner = styled.div`
+  width: 100%;
+  height: 100%;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-  transform: translate(-50%, -50%) translate(var(--translate-x, 0), var(--translate-y, 0)) scale(var(--scale, 1)) rotate(var(--rotate, 0));
   animation: ${float} 20s infinite ease-in-out;
   box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
 
   &::before,
   &::after {

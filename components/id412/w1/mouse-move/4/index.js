@@ -39,7 +39,9 @@ export default function MouseMoveVisual() {
 
   return (
     <S.Container ref={containerRef}>
-      <S.AbstractShape ref={shapeRef} />
+      <S.AbstractShape ref={shapeRef}>
+        <S.ShapeInner />
+      </S.AbstractShape>
     </S.Container>
   );
 }
